@@ -1,0 +1,77 @@
+body {
+  margin: auto;
+  width: 90%;
+}
+
+body form {
+  margin: inherit;
+  width: inherit;
+}
+
+.login-btn {
+  background-color: #00866d;
+}
+
+.login-btn a {
+  color: white;
+  text-decoration: none;
+}
+
+.logout-btn {
+  background-color: #812203;
+}
+
+.logout-btn a {
+  color: white;
+  text-decoration: none;
+}
+
+.header-content {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+}
+
+.header-content h1 {
+  font-family: 'Tapestry', cursive;
+  font-weight: 200;
+}
+
+.user-courses-list {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  padding: 20px 40px;
+  background-color: #dafbff;
+}
+
+.user-courses-list .single-course {
+  height: 8.5rem;
+  width: 10.5rem;
+  border-radius: 5px;
+  padding: 5px 5px;
+  margin: 30px;
+  background-color: #e6c0ff;
+}
+
+.user-courses-list .single-course h4 {
+  margin: 0 2px;
+  color: #504f4f;
+}
+
+.user-courses-list .single-course h2 {
+  padding: 0;
+  margin: 0;
+}
+/*# sourceMappingURL=style.css.map */
