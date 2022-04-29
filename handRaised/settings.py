@@ -87,11 +87,11 @@ DATABASES = {
 
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
 
-        'NAME': 'hand_raised',
+        'NAME': os.environ['hand_raised_db'],
 
-        'USER': 'postgres',
+        'USER': os.environ['hand_raised_usr'],
 
-        'PASSWORD': 'somar101',
+        'PASSWORD': os.environ['hand_raised_psw'],
 
         'HOST': 'localhost',
 
