@@ -37,7 +37,6 @@ class Course(models.Model):
     course_unique_id = models.CharField(max_length=15)
     subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
     schedule = models.CharField(max_length=30)
-    organization = models.ForeignKey(Organization, on_delete=models.CASCADE)
     professor = models.ForeignKey(Professor, on_delete=models.CASCADE)
     
     def __str__(self) -> str:
