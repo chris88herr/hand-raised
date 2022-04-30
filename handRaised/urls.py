@@ -15,9 +15,10 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-
+from hrma.views import login
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('accounts/login/', login, name='login'), 
     path('accounts/', include('django.contrib.auth.urls')),
     path('hrma/', include('hrma.urls'))
 ]

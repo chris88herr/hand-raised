@@ -1,7 +1,10 @@
+from ctypes import windll
+from lib2to3.pgen2.token import LBRACE
+from turtle import textinput
 from django.contrib.auth.forms import UserCreationForm
 from hrma.models import User
 from django import forms
-from hrma.models import Student, Professor
+from hrma.models import Student, Professor, Organization
 
 STUDENT = 1
 PROFESSOR = 2
@@ -39,3 +42,16 @@ class SignUpForm(UserCreationForm):
         if commit:
             user.save()
         return user
+
+class AddOrganizationToProfessor(forms.ModelForm):
+    organization = forms.ModelChoiceField(
+        queryset=Organization.objects.all(),
+    )
+    class Meta:
+        model = Professor
+        fields = ('organization',)
+
+class AddSubject(forms.ModelForm):
+    subjectName = forms.CharField(label='Subject Name', widget=forms.TextInput())
+    description = forms.CharField(label='Description', widget = forms.Textarea())
+    # org = forms.CharField(label='Organization', widget=forms.Select(choices=))

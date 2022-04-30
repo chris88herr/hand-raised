@@ -9,7 +9,9 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Tapestry&display=swap" rel="stylesheet">
     <link rel="stylesheet" type='text/css' href="{% static 'style.css' %}">
-    
+    <script src = "{% static 'hrma.js' %}">  </script>
+
+    {% block scripts %} {% endblock %}
     <title>
         {% block title %}
         {% endblock %}
@@ -39,8 +41,6 @@
         
         
     </div>
-    
-    
     {% block content %}
         {% endblock %}
     </body>

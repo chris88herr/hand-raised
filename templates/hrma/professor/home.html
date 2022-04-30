@@ -1,4 +1,9 @@
 {% extends 'base.html' %}
+{% load static %}
+{% block scripts %} 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<script> src = "{% static 'hrma.js' %}"</script>
+{% endblock %}
 {% block title %} Dashboard {% endblock %}
 {% block content %}
     
@@ -8,7 +13,7 @@
         <h2>Hi {{user.username}}</h2>
     </div>
     {% elif user.is_professor%}
-        {% include "professor_dashboard.html" %}
+        {% include "professor/dashboard.html" with add_org_form=add_org_form %}
     {% endif %}
 
 {% endblock %}

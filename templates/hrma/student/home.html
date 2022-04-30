@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block scripts %} 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<script> src = "{% static 'hrma.js' %}"</script>
+{% endblock %}
+{% block title %} Dashboard {% endblock %}
+{% block content %}
+    
+    <!-- load templates according to user types -->
+    {% if user.is_student %}
+    <div class="student-home">
+        <h2>Hi {{user.username}}</h2>
+    </div>
+    {% elif user.is_professor%}
+        {% include "student/dashboard.html"  %}
+    {% endif %}
+
+{% endblock %}
