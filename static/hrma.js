@@ -11,9 +11,8 @@ window.onload = (e)=>{
     //when adding a subject to their profile
     $('select#id_organizations_subjects').change(function(){
         var selectedOrg = $(this).children("option:selected").val()
-        subjects=$('select#id_subjects').children(`option#${selectedOrg}`)
-        console.log(subjects)
-        subjects.css('display','block')
+       $('select#id_subjects').children(`option#${selectedOrg}`).css('display','block')
+       $('select#id_subjects').children(`:not(option#${selectedOrg})`).css('display','none')
     })
 
 }

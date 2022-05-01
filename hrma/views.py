@@ -5,7 +5,7 @@ from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth import authenticate, login as authlogin
 from django.contrib import messages
 from django.views import View
-from hrma.models import Professor,Organization
+from hrma.models import Professor,Organization, Subject
 from . import forms
 # Create your views here
 def home(request):
@@ -20,13 +20,23 @@ class ProfessorDashboard(View):
         return render(request, self.template_name , self.context)
     
     def post(self, request, *args, **kwargs):
-        print(f'{request}:{request.user.username}')
-        org = Organization.objects.filter(pk=request.POST['organizations']).first()
-        professor = Professor.objects.filter(pk=request.user).first()
-        print(f'Adding Org  {org}  to Professor to {professor}')
-        professor.organizations.add(org)
+        self._processPOSTRequest(request)
         self._build_fields(request)
         return render(request, self.template_name, self.context)
+
+    def _processPOSTRequest(self, request):
+        print(f'{request}:{request.POST}')
+        if 'add_org_form' in request.POST:
+            org = Organization.objects.filter(pk=request.POST['organizations']).first()
+            professor = Professor.objects.filter(pk=request.user).first()
+            print(f'Adding Org  {org}  to Professor to {professor}')
+            professor.organizations.add(org)
+        elif 'add_subject_form':
+            professor = Professor.objects.filter(pk=request.user).first()
+            subjectId = request.POST['subject']
+            subject = Subject.objects.filter(pk=subjectId)
+            print(f'adding subject {subject} to professor {professor.user.username}')
+            professor.subjects.add(subjectId)
 
     def _build_fields(self, request):
         add_org_form = forms.AddOrganizationToProfessor()

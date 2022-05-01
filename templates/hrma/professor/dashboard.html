@@ -14,7 +14,7 @@
                     <form action="/hrma/professorDashboard" method="POST">
                         {% csrf_token %}
                         {{ add_org_form }}
-                        <button type="submit"s> Join! </button>
+                        <button type="submit" name="add_org_form"> Join! </button>
                     </form>
             </div>
             
@@ -32,17 +32,17 @@
             <div class="add-form-content">
                 <span class="close-span">X</span>
                     <h3>Add a Subject</h3>
-                    <form>
+                    <form action="/hrma/professorDashboard" method="POST">
                         {% csrf_token %}
                         <label for="id_organizations">Organizations</label>
-                        <select name="organizations" required id="id_organizations_subjects">
+                        <select name="organization" required id="id_organizations_subjects">
                             <option value selected >--------</option>
                             {% for org in add_subject_form.organizations.field.queryset %} 
                                 <option value="{{org.name}}">{{org.name}}</option> 
                             {% endfor %}
                         </select>
                         <label for="id_subjects">Subjects</label>
-                        <select name="subjects" required id="id_subjects">
+                        <select name="subject" required id="id_subjects">
                             <option value="{{subject.id}}" class="initialOpt" selected>------</option>
 
                             {% for subject in add_subject_form.subjects.field.queryset %}
@@ -50,7 +50,7 @@
                             {% endfor %}
                         </select>
                         <!-- {{ add_subject_form }} -->
-                        <button type="submit"s> Join! </button>
+                        <button type="submit" name="add_subject_form"> Join! </button>
                     </form>
             </div>
             

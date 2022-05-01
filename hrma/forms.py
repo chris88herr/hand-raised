@@ -76,7 +76,8 @@ class AddSubjectToProfessor(forms.Form):
             self.fields['organizations'] = forms.ModelChoiceField(queryset=orgs)
             subjectsList = []
             for org in orgs:
-                subjectsList.append(Subject.objects.filter(organization=org))
+                orgSubjects = Subject.objects.filter(organization=org)
+                subjectsList.append(orgSubjects)
             if len(subjectsList)>0:
                 subjects = QuerySet.union(*subjectsList)
                 self.fields['subjects'] = forms.ModelChoiceField(queryset=subjects)

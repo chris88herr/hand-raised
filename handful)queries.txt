@@ -19,3 +19,18 @@ $func$ LANGUAGE plpgsql;
 --DELETE ALL RECORDS
 DELETE FROM "hrma_professor_organizations" where id IN (SELECT id from "hrma_professor_organizations" );
 SELECT * FROM "hrma_professor_organizations";
+
+--PEEK AT SUBJECTS
+select * from "hrma_subject";
+
+--SEE SUBJECTS WITH ORGS
+SELECT sbj.organization_id as sbj_org_id, org.id as org_id, sbj.name as sbj_name, org.name as org_name from "hrma_subject" as sbj 
+INNER JOIN "hrma_organization" as org
+on org.id = sbj.organization_id;
+
+---PROFESSOR SUBJECTS
+SELECT usr.username as username FROM "hrma_user" as usr
+INNER JOIN "hrma_professor" as prfs
+ON prfs.user_id = usr.id
+INNER JOIN "hrma_professor_subjects" as prf_sbjs
+ON prf_sbjs.professor_id = prfs.user_id;
