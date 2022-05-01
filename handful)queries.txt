@@ -1,0 +1,21 @@
+CREATE OR REPLACE FUNCTION delauto(tbl regclass, col text, val integer
+                                         ,OUT success bool)
+  RETURNS bool AS
+$func$ 
+BEGIN
+
+EXECUTE format('
+   DELETE FROM %s
+   WHERE  %I = $1
+   RETURNING TRUE', tbl, col)
+USING   val
+INTO    success;
+
+RETURN;  -- optional in this case
+
+END
+$func$ LANGUAGE plpgsql;
+
+--DELETE ALL RECORDS
+DELETE FROM "hrma_professor_organizations" where id IN (SELECT id from "hrma_professor_organizations" );
+SELECT * FROM "hrma_professor_organizations";

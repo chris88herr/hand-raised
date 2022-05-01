@@ -120,3 +120,23 @@ body{
     }
 }
 
+//Sections
+.sections{
+    display: flex;
+    flex-direction: row;
+    justify-content: start;
+    section{
+        padding: 0 50px 0 0;
+    }
+}
+
+//Forms
+select#id_subjects{
+    option{
+        display: none;
+        .iniitialOpt{
+            display:block;
+        }
+    }
+}
+

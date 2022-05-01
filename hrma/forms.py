@@ -2,10 +2,13 @@ from ctypes import windll
 from lib2to3.pgen2.token import LBRACE
 from turtle import textinput
 from django.contrib.auth.forms import UserCreationForm
+from pkg_resources import require
+from hrma.models import Subject
 from hrma.models import User
 from django import forms
 from hrma.models import Student, Professor, Organization
-
+from django.db.models.query import QuerySet
+from itertools import chain
 STUDENT = 1
 PROFESSOR = 2
 USER_TYPES = (
@@ -43,14 +46,43 @@ class SignUpForm(UserCreationForm):
             user.save()
         return user
 
-class AddOrganizationToProfessor(forms.ModelForm):
-    organization = forms.ModelChoiceField(
-        queryset=Organization.objects.all(),
-    )
-    class Meta:
-        model = Professor
-        fields = ('organization',)
+class AddOrganizationToProfessor(forms.Form):
+    
+    def __init__(self, *args, **kwargs):
+        super(AddOrganizationToProfessor, self).__init__(*args, **kwargs)
+        self._build_fields()
 
+    def _build_fields(self):
+        orgs = Organization.objects.all()
+        print(f'Add Org Form orgs {orgs}')
+        self.fields['organizations'] = forms.ModelChoiceField(
+            queryset=orgs
+        )
+        # self.fields['professor'].initial = Professor.objects.filter(pk=self.user).first()
+        # self.fields['professor'].widget = forms.HiddenInput()
+
+class AddSubjectToProfessor(forms.Form):
+    def __init__(self, *args, **kwargs):
+        self.user = kwargs.pop("user")
+        super(AddSubjectToProfessor, self).__init__(*args, **kwargs)
+        self._build_fields()
+
+    def _build_fields(self):
+        professor = Professor.objects.filter(pk=self.user).first()
+        print(f'professor {professor}')
+        if professor.organizations:
+            orgs = professor.organizations.all()
+            print(f'professor\'s orgs {orgs}')
+            self.fields['organizations'] = forms.ModelChoiceField(queryset=orgs)
+            subjectsList = []
+            for org in orgs:
+                subjectsList.append(Subject.objects.filter(organization=org))
+            if len(subjectsList)>0:
+                subjects = QuerySet.union(*subjectsList)
+                self.fields['subjects'] = forms.ModelChoiceField(queryset=subjects)
+            else:
+                self.fields['subjects'] = forms.ModelChoiceField(queryset=Subject.objects.none())
+                    
 class AddSubject(forms.ModelForm):
     subjectName = forms.CharField(label='Subject Name', widget=forms.TextInput())
     description = forms.CharField(label='Description', widget = forms.Textarea())

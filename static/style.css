@@ -150,4 +150,29 @@ body form {
 .add-form-content span:hover {
   cursor: pointer;
 }
+
+.sections {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -webkit-box-pack: start;
+      -ms-flex-pack: start;
+          justify-content: start;
+}
+
+.sections section {
+  padding: 0 50px 0 0;
+}
+
+select#id_subjects option {
+  display: none;
+}
+
+select#id_subjects option .iniitialOpt {
+  display: block;
+}
 /*# sourceMappingURL=style.css.map */

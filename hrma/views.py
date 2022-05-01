@@ -4,25 +4,43 @@ from django.views import generic
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth import authenticate, login as authlogin
 from django.contrib import messages
+from django.views import View
+from hrma.models import Professor,Organization
 from . import forms
 # Create your views here
 def home(request):
     return render(request, 'base.html')
 
-def professorDashboard(request):
-    add_org_form = forms.AddOrganizationToProfessor
+class ProfessorDashboard(View):
+    template_name = 'professor/home.html'
     
-    context = {
-        'add_org_form': add_org_form
-    }
-    return render(request, 'professor/home.html', context)
+    def get(self, request, *args, **kwargs):
+        print(f'template name {self.template_name}')
+        self._build_fields(request)
+        return render(request, self.template_name , self.context)
+    
+    def post(self, request, *args, **kwargs):
+        print(f'{request}:{request.user.username}')
+        org = Organization.objects.filter(pk=request.POST['organizations']).first()
+        professor = Professor.objects.filter(pk=request.user).first()
+        print(f'Adding Org  {org}  to Professor to {professor}')
+        professor.organizations.add(org)
+        self._build_fields(request)
+        return render(request, self.template_name, self.context)
 
+    def _build_fields(self, request):
+        add_org_form = forms.AddOrganizationToProfessor()
+        add_subject_form = forms.AddSubjectToProfessor(user=request.user)
+        print(f'adding forms')
+        self.context = {
+            'add_org_form': add_org_form,
+            'add_subject_form':add_subject_form
+        }
+        
 def studentDasboard(request):
-    
     return render(request, 'student/home.html')
 
 def login(request):
-    print('hello', request.method)
     if request.method == 'POST':
         form = AuthenticationForm(request.POST)
         username = request.POST['username']
@@ -31,7 +49,6 @@ def login(request):
         print(f'user {user}')
         if user and user.is_active:
             authlogin(request,user)
-
             return redirect(reverse('hrma:professorDashboard')) 
         else:
             messages.error(request,'username or password not correct')

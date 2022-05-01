@@ -25,7 +25,9 @@ class Subject(models.Model):
     name = models.CharField(max_length=30)
     description = models.CharField(max_length=150)
     organization = models.ForeignKey(Organization, on_delete=models.CASCADE)
-
+    def __str__(self) -> str:
+        return self.name
+        
 class Professor(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
     organizations = models.ManyToManyField(Organization)

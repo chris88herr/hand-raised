@@ -1,24 +1,65 @@
 
 <div class="professor-home">
     <h2>Hi Professor {{user.username}}</h2>
-    <section class="subjects section">
-        <div class="section-header ">
-            <h2>Your Subjects</h2> <button class="subject-add-btn add-form-btn">Add</button>
+    <div class="sections"s>
+        <!-- Org Section -->
+        <section class="orgs section">
+            <div class="section-header ">
+                <h4>Your Orgs</h4> <button class="subject-add-btn add-form-btn">Add</button>
+            </div>
+        <div class="orgs-add-section add-form">
+            <div class="add-form-content">
+                <span class="close-span">X</span>
+                    <h3>Join an Org</h3>
+                    <form action="/hrma/professorDashboard" method="POST">
+                        {% csrf_token %}
+                        {{ add_org_form }}
+                        <button type="submit"s> Join! </button>
+                    </form>
+            </div>
+            
         </div>
-    <div class="subject-add-section add-form">
-        <div class="add-form-content">
-            <span class="close-span">X</span>
-                <h3>Join an Institution</h3>
-                <form>
-                    {{ add_org_form }}
-                    <button type="submit"s> Join! </button>
-                </form>
+        <div class="user-subjects-list">
         </div>
-        
+        </section>
+
+        <!-- Subject Section -->
+        <section class="subjects section">
+            <div class="section-header ">
+                <h4>Your Subjects</h4> <button class="subject-add-btn add-form-btn">Add</button>
+            </div>
+        <div class="subject-add-section add-form">
+            <div class="add-form-content">
+                <span class="close-span">X</span>
+                    <h3>Add a Subject</h3>
+                    <form>
+                        {% csrf_token %}
+                        <label for="id_organizations">Organizations</label>
+                        <select name="organizations" required id="id_organizations_subjects">
+                            <option value selected >--------</option>
+                            {% for org in add_subject_form.organizations.field.queryset %} 
+                                <option value="{{org.name}}">{{org.name}}</option> 
+                            {% endfor %}
+                        </select>
+                        <label for="id_subjects">Subjects</label>
+                        <select name="subjects" required id="id_subjects">
+                            <option value="{{subject.id}}" class="initialOpt" selected>------</option>
+
+                            {% for subject in add_subject_form.subjects.field.queryset %}
+                                <option value="{{subject.id}}" id="{{subject.organization}}">{{subject.name}}</option>
+                            {% endfor %}
+                        </select>
+                        <!-- {{ add_subject_form }} -->
+                        <button type="submit"s> Join! </button>
+                    </form>
+            </div>
+            
+        </div>
+        <div class="user-subjects-list">
+        </div>
+        </section>
     </div>
-    <div class="user-subjects-list">
-    </div>
-    </section>
+
     <section class="courses-section section">
         <div class="section-header">
             <h2>Your Courses</h2> 
