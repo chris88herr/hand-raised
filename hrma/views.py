@@ -5,7 +5,8 @@ from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth import authenticate, login as authlogin
 from django.contrib import messages
 from django.views import View
-from hrma.models import Professor,Organization, Subject
+from hrma.utlis.views import processProfessorPOSTRequests
+from hrma.models import Professor,Organization, Subject, Course
 from . import forms
 # Create your views here
 def home(request):
@@ -26,29 +27,23 @@ class ProfessorDashboard(View):
 
     def _processPOSTRequest(self, request):
         print(f'{request}:{request.POST}')
-        if 'add_org_form' in request.POST:
-            org = Organization.objects.filter(pk=request.POST['organizations']).first()
-            professor = Professor.objects.filter(pk=request.user).first()
-            print(f'Adding Org  {org}  to Professor to {professor}')
-            professor.organizations.add(org)
-        elif 'add_subject_form':
-            professor = Professor.objects.filter(pk=request.user).first()
-            subjectId = request.POST['subject']
-            subject = Subject.objects.filter(pk=subjectId)
-            print(f'adding subject {subject} to professor {professor.user.username}')
-            professor.subjects.add(subjectId)
+        processProfessorPOSTRequests(request)
 
     def _build_fields(self, request):
-        add_org_form = forms.AddOrganizationToProfessor()
+        add_org_form = forms.AddOrganizationToProfessor
         add_subject_form = forms.AddSubjectToProfessor(user=request.user)
+        add_course_form = forms.AddCourseToProfessor(user=request.user)
         professor = Professor.objects.filter(pk=request.user).first()
         professor_orgs = professor.organizations.all()
         professor_subjects = professor.subjects.all()
+        professor_courses = Course.objects.select_related().filter(professor=professor)
+        print(f'professor\'s courses {professor_courses}')
         print(f'professor\'s orgs passed to template: {professor_orgs}')
-        print(f'adding forms')
         self.context = {
+            'professor_courses':professor_courses,
             'professor_orgs':professor_orgs,
             'professor_subjects':professor_subjects,
+            'add_course_form':add_course_form,
             'add_org_form': add_org_form,
             'add_subject_form':add_subject_form
         }

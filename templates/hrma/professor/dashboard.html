@@ -88,61 +88,45 @@
             <h2>Your Courses</h2> 
             <button class="course-add-btn add-form-btn">Add</button>
         </div>
-    <div class="course-add-section" style="background-color: beige;">
-        
+    <div class="course-add-section add-form" style="background-color: beige;">
+        <div class="add-form-content">
+                <span class="close-span">X</span>
+                    <h3>Add Course</h3>
+                    <form action="/hrma/professorDashboard" method="POST">
+                        {% csrf_token %}
+                        <label for="id_organizations">Organization</label>
+                        <select name="organization" required id="id_organizations_subjects">
+                            <option value selected >--------</option>
+                            {% for org in add_course_form.organizations.field.queryset %} 
+                                <option value="{{org.name}}">{{org.name}}</option> 
+                            {% endfor %}
+                        </select>
+                        <label for="id_subjects">Subject</label>
+                        <select name="subject" required id="id_subjects">
+                            <option value="{{subject.id}}" class="initialOpt" selected>------</option>
+
+                            {% for subject in add_course_form.subjects.field.queryset %}
+                                <option value="{{subject.id}}" id="{{subject.organization}}">{{subject.name}}</option>
+                            {% endfor %}
+                        </select>
+                        <br>
+                        <div class="add-course-form-course">
+                            <label for=id_course>Course</label>
+                            <input type="text" name="course" label="Course" required id="id_course">
+                            <br>
+                            <button type="submit" name="add_course_form"> Add Course! </button>
+                        </div>
+                    </form>
+            </div>
     </div>
         <div class="user-courses-list">
+            {% for course in professor_courses %}
             <div class="single-course">
-                <h4 class="course-subject">Linear Algebra</h4>
-                <h2 class="course-title">LALG-4040</h2>
+                <h4 class="course-subject">{{course.subject}}</h4>
+                <h2 class="course-title">{{course.course_name}}</h2>
             </div>
-            <div class="single-course">
-                <h4 class="course-subject">Linear Algebra</h4>
-                <h2 class="course-title">LALG-4041</h2>
-            </div>
-            <div class="single-course">
-                <h4 class="course-subject">Linear Algebra</h4>
-                <h2 class="course-title">LALG-4042</h2>
-            </div>
-            <div class="single-course">
-                <h4 class="course-subject">Calculus I</h4>
-                <h2 class="course-title">CALI-4052</h2>
-            </div>
-            <!-- <div class="single-course">
-                <h4 class="course-subject">Calculus III</h4>
-                <h2 class="course-title">CALIII-4052</h2>
-            </div>
-            <div class="single-course">
-                <h4 class="course-subject">Calculus III</h4>
-                <h2 class="course-title">CALIII-4052</h2>
-            </div>
-            <div class="single-course">
-                <h4 class="course-subject">Calculus III</h4>
-                <h2 class="course-title">CALIII-4052</h2>
-            </div>
-            <div class="single-course">
-                <h4 class="course-subject">Calculus III</h4>
-                <h2 class="course-title">CALIII-4052</h2>
-            </div>
-            <div class="single-course">
-                <h4 class="course-subject">Calculus III</h4>
-                <h2 class="course-title">CALIII-4052</h2>
-            </div>
-            <div class="single-course">
-                <h4 class="course-subject">Calculus III</h4>
-                <h2 class="course-title">CALIII-4052</h2>
-            </div>
-            <div class="single-course">
-                <h4 class="course-subject">Calculus III</h4>
-                <h2 class="course-title">CALIII-4052</h2>
-            </div>
-            <div class="single-course">
-                <h4 class="course-subject">Calculus III</h4>
-                <h2 class="course-title">CALIII-4052</h2>
-            </div>
-            <div class="single-course">
-                <h4 class="course-subject">Calculus III</h4>
-                <h2 class="course-title">CALIII-4052</h2> -->
+            {% endfor %}
+           
         </div>
     </section>
     

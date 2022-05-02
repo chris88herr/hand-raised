@@ -35,14 +35,13 @@ class Professor(models.Model):
     # courses = models.ForeignKey(Course, on_delete=models.CASCADE)
     
 class Course(models.Model):
-    courseId = models.CharField(max_length=8)
-    course_unique_id = models.CharField(max_length=15)
+    course_name = models.CharField(max_length=10, default=None)
     subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
     schedule = models.CharField(max_length=30)
     professor = models.ForeignKey(Professor, on_delete=models.CASCADE)
     
     def __str__(self) -> str:
-        return "%s\r%s"  % (self.courseId, self.schedule)
+        return "%s"  % (self.course_name)
 
 class Student(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)

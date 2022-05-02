@@ -183,4 +183,18 @@ select#id_subjects option {
 select#id_subjects option .iniitialOpt {
   display: block;
 }
+
+.add-course-form-course {
+  margin-top: 10px;
+}
+
+.add-course-form-course label {
+  margin-right: 5px;
+}
+
+.add-course-form-course button {
+  padding: 0 70px;
+  margin: 5px auto;
+  display: block;
+}
 /*# sourceMappingURL=style.css.map */

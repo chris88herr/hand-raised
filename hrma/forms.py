@@ -3,10 +3,11 @@ from lib2to3.pgen2.token import LBRACE
 from turtle import textinput
 from django.contrib.auth.forms import UserCreationForm
 from pkg_resources import require
+from hrma.utlis.db import getSubjectsQuerySetListFromOrg
 from hrma.models import Subject
 from hrma.models import User
 from django import forms
-from hrma.models import Student, Professor, Organization
+from hrma.models import Student, Professor, Organization, Course
 from django.db.models.query import QuerySet
 from itertools import chain
 STUDENT = 1
@@ -54,12 +55,9 @@ class AddOrganizationToProfessor(forms.Form):
 
     def _build_fields(self):
         orgs = Organization.objects.all()
-        print(f'Add Org Form orgs {orgs}')
         self.fields['organizations'] = forms.ModelChoiceField(
             queryset=orgs
         )
-        # self.fields['professor'].initial = Professor.objects.filter(pk=self.user).first()
-        # self.fields['professor'].widget = forms.HiddenInput()
 
 class AddSubjectToProfessor(forms.Form):
     def __init__(self, *args, **kwargs):
@@ -68,22 +66,27 @@ class AddSubjectToProfessor(forms.Form):
         self._build_fields()
 
     def _build_fields(self):
-        professor = Professor.objects.filter(pk=self.user).first()
-        print(f'professor {professor}')
-        if professor.organizations:
-            orgs = professor.organizations.all()
-            print(f'professor\'s orgs {orgs}')
+        self.professor = Professor.objects.filter(pk=self.user).first()
+        print(f'professor {self.professor}')
+        if self.professor.organizations:
+            orgs = self.professor.organizations.all()
             self.fields['organizations'] = forms.ModelChoiceField(queryset=orgs)
-            subjectsList = []
-            for org in orgs:
-                orgSubjects = Subject.objects.filter(organization=org)
-                subjectsList.append(orgSubjects)
-            if len(subjectsList)>0:
-                subjects = QuerySet.union(*subjectsList)
+            self.subjectsList = getSubjectsQuerySetListFromOrg(orgs)
+            if len(self.subjectsList)>0:
+                subjects = QuerySet.union(*self.subjectsList)
                 self.fields['subjects'] = forms.ModelChoiceField(queryset=subjects)
             else:
                 self.fields['subjects'] = forms.ModelChoiceField(queryset=Subject.objects.none())
-                    
+
+class AddCourseToProfessor(AddSubjectToProfessor):
+    def __init__(self, *args, **kwargs):
+        super(AddCourseToProfessor, self).__init__(*args, **kwargs)
+        
+    def _build_fields(self):
+        super (AddCourseToProfessor,self)._build_fields()
+        self.fields['course'] = forms.CharField(widget=forms.TextInput(attrs={'label':'course'}))
+        
+
 class AddSubject(forms.ModelForm):
     subjectName = forms.CharField(label='Subject Name', widget=forms.TextInput())
     description = forms.CharField(label='Description', widget = forms.Textarea())
