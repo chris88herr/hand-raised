@@ -41,8 +41,12 @@ class ProfessorDashboard(View):
     def _build_fields(self, request):
         add_org_form = forms.AddOrganizationToProfessor()
         add_subject_form = forms.AddSubjectToProfessor(user=request.user)
+        professor = Professor.objects.filter(pk=request.user).first()
+        professor_orgs = professor.organizations.all()
+        print(f'professor\'s orgs passed to template: {professor_orgs}')
         print(f'adding forms')
         self.context = {
+            'professor_orgs':professor_orgs,
             'add_org_form': add_org_form,
             'add_subject_form':add_subject_form
         }

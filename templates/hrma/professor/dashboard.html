@@ -1,11 +1,25 @@
 
+<!-- <pre> {% filter force_escape %} {% debug %} {% endfilter %} </pre> -->
 <div class="professor-home">
     <h2>Hi Professor {{user.username}}</h2>
     <div class="sections"s>
         <!-- Org Section -->
         <section class="orgs section">
             <div class="section-header ">
-                <h4>Your Orgs</h4> <button class="subject-add-btn add-form-btn">Add</button>
+                <div>
+                    <h4>Your Orgs</h4> 
+                    <div class="professor-orgs">
+                        <!-- <h4> {{professor}}</h4> -->
+                        <ul>
+                            {% for professor_org in professor_orgs %}
+                                <li>{{professor_org.name}}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+                
+                
+                <button class="subject-add-btn add-form-btn">Add</button>
             </div>
         <div class="orgs-add-section add-form">
             <div class="add-form-content">
