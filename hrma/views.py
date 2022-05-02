@@ -36,7 +36,7 @@ class ProfessorDashboard(View):
         professor = Professor.objects.filter(pk=request.user).first()
         professor_orgs = professor.organizations.all()
         professor_subjects = professor.subjects.all()
-        professor_courses = Course.objects.select_related().filter(professor=professor)
+        professor_courses = Course.objects.prefetch_related('professor__organizations').filter(professor=professor)
         print(f'professor\'s courses {professor_courses}')
         print(f'professor\'s orgs passed to template: {professor_orgs}')
         self.context = {

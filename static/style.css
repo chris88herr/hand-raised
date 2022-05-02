@@ -83,6 +83,10 @@ body form {
   margin: 0;
 }
 
+.user-courses-list .single-course h5 {
+  margin: 0 2px;
+}
+
 .section {
   display: -webkit-box;
   display: -ms-flexbox;

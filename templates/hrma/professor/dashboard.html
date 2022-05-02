@@ -122,6 +122,7 @@
         <div class="user-courses-list">
             {% for course in professor_courses %}
             <div class="single-course">
+                <h5>{{course.subject.organization}}</h5>
                 <h4 class="course-subject">{{course.subject}}</h4>
                 <h2 class="course-title">{{course.course_name}}</h2>
             </div>
