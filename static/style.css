@@ -168,6 +168,14 @@ body form {
   padding: 0 50px 0 0;
 }
 
+.single-filter-section {
+  display: none;
+  -ms-flex-pack: distribute;
+      justify-content: space-around;
+  background-color: var(--color-primary);
+  color: var(--first-background);
+}
+
 select#id_subjects option {
   display: none;
 }

@@ -1,3 +1,14 @@
+function toggleFilter(clickTargetClass, toggableSelector){
+    $(`.${clickTargetClass}`).on("click", function(){
+        var toggable = $(`.${toggableSelector}`)
+        if(toggable.css('display') == 'none'){
+            toggable.css('display', 'flex')
+        }
+        else {
+            toggable.css('display', 'none')
+        }
+    })
+}
 window.onload = (e)=>{
     $('.close-span').on("click", function(){
         $(this).parent().parent().css('display', 'none')
@@ -14,6 +25,11 @@ window.onload = (e)=>{
        $('select#id_subjects').children(`option#${selectedOrg}`).css('display','block')
        $('select#id_subjects').children(`:not(option#${selectedOrg})`).css('display','none')
     })
+
+    //toggle the orgs filter when clicking on the orgs filter header
+    toggleFilter('orgs-section-header', 'single-filter-section.professor-orgs')
+    toggleFilter('subjects-section-header', 'single-filter-section.professor-subjects')
+    
 
 }
 

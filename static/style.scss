@@ -130,6 +130,13 @@ body{
     }
 }
 
+.single-filter-section{
+    display: none;
+    justify-content: space-around;
+    background-color: var(--color-primary);
+    color: var(--first-background);
+}
+
 //Forms
 select#id_subjects{
     option{
