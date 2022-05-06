@@ -6,7 +6,7 @@ from django.contrib.auth import authenticate, login as authlogin
 from django.contrib import messages
 from django.views import View
 from hrma.utlis.views import processProfessorPOSTRequests
-from hrma.models import Professor,Organization, Subject, Course
+from hrma.models import Professor,Organization, Subject, Course, Student
 from . import forms
 # Create your views here
 def home(request):
@@ -14,9 +14,9 @@ def home(request):
 
 class ProfessorDashboard(View):
     template_name = 'professor/home.html'
-    
+    context = {}
+
     def get(self, request, *args, **kwargs):
-        print(f'template name {self.template_name}')
         self._build_fields(request)
         return render(request, self.template_name , self.context)
     
@@ -26,7 +26,6 @@ class ProfessorDashboard(View):
         return render(request, self.template_name, self.context)
 
     def _processPOSTRequest(self, request):
-        print(f'{request}:{request.POST}')
         processProfessorPOSTRequests(request)
 
     def _build_fields(self, request):
@@ -48,9 +47,29 @@ class ProfessorDashboard(View):
             'add_subject_form':add_subject_form
         }
         
-def studentDasboard(request):
-    return render(request, 'student/home.html')
+class StudentDasboard(View):
+    template_name = 'student/home.html'
+    context = {}
+    def get(self, request, *args, **kwargs):
+        self._build_fields(request)
+        return render(request, self.template_name, self.context)
+        
+    def _build_fields(self, request):
+        student =Student.objects.filter(pk=request.user).first()
+        student_courses = student.courses.all()
+        student_orgs = []
+        student_professors = []
+        for course in student_courses:
+            student_orgs.append(course.organization)
+            student_professors.append(course.professor)
+        self.context = {
+            'student_orgs':student_orgs,
+            'student_courses':student_courses,
+            'student_professors':student_professors
+        }
 
+        
+    
 def login(request):
     if request.method == 'POST':
         form = AuthenticationForm(request.POST)
@@ -60,7 +79,11 @@ def login(request):
         print(f'user {user}')
         if user and user.is_active:
             authlogin(request,user)
-            return redirect(reverse('hrma:professorDashboard')) 
+            if user.is_professor:
+                return redirect(reverse('hrma:professorDashboard')) 
+            else:
+                return redirect(reverse('hrma:studentDashboard')) 
+
         else:
             messages.error(request,'username or password not correct')
             return redirect(reverse('hrma:login'))

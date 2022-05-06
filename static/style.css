@@ -16,15 +16,6 @@ body form {
   width: inherit;
 }
 
-.login-btn {
-  background-color: var(--color-primary);
-}
-
-.login-btn a {
-  color: var(--first-background);
-  text-decoration: none;
-}
-
 .logout-btn {
   background-color: var(--color-secondary);
 }
@@ -48,7 +39,6 @@ body form {
 
 .header-content h1 {
   font-family: 'Tapestry', cursive;
-  font-weight: 200;
 }
 
 .user-courses-list {
@@ -65,8 +55,11 @@ body form {
 }
 
 .user-courses-list .single-course {
+  -webkit-box-flex: 1;
+      -ms-flex: 1 0 17%;
+          flex: 1 0 17%;
   height: 8.5rem;
-  width: 10.5rem;
+  width: 7.5rem;
   border-radius: 5px;
   padding: 5px 5px;
   margin: 30px;
@@ -132,6 +125,8 @@ body form {
       -ms-flex-direction: column;
           flex-direction: column;
   padding: 0;
+  border: black;
+  border-style: solid;
 }
 
 .add-form h3 {
@@ -200,5 +195,34 @@ select#id_subjects option .iniitialOpt {
   padding: 0 70px;
   margin: 5px auto;
   display: block;
+}
+
+.single-filter {
+  margin: 10px 0px;
+  width: 100px;
+  height: 50px;
+  background-color: #264744;
+  border-radius: 100px/50px;
+  text-align: center;
+}
+
+.single-filter:hover {
+  color: #264744;
+  background-color: #FFFFFF;
+  cursor: pointer;
+  border-radius: 100px/50px;
+  border-style: solid;
+  border-color: black;
+  border-width: 2px;
+}
+
+.active-filter {
+  color: #264744;
+  background-color: #FFFFFF;
+  cursor: pointer;
+  border-radius: 100px/50px;
+  border-style: solid;
+  border-color: black;
+  border-width: 2px;
 }
 /*# sourceMappingURL=style.css.map */

@@ -65,17 +65,18 @@
         </div>
         </section>
     </div>
+    <!-- FILTERS -->
     <div class="filters-section">
         <div class="single-filter-section professor-orgs">
             {% for professor_org in professor_orgs %}
-            <div class="single-professor-org">
+            <div class="single-professor-org single-filter" id="{{professor_org.name}}">
                 <p>{{professor_org.name}}</p>
             </div>
             {% endfor %}
         </div>
         <div class="single-filter-section professor-subjects">
             {% for subject in professor_subjects %}
-            <div class="single-professor-subject">
+            <div class="single-professor-subject single-filter" id="{{subject.name}}">
                 <p>{{subject.name}}</p>
             </div>
             {% endfor %}
@@ -121,7 +122,7 @@
     </div>
         <div class="user-courses-list">
             {% for course in professor_courses %}
-            <div class="single-course">
+            <div class="single-course" id="{{course.subject.organization}}_{{course.subject}}">
                 <h5>{{course.subject.organization}}</h5>
                 <h4 class="course-subject">{{course.subject}}</h4>
                 <h2 class="course-title">{{course.course_name}}</h2>

@@ -147,5 +147,4 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = 'hrma.User'
 
-
 LOGOUT_REDIRECT_URL = "hrma:home"

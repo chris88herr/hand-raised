@@ -9,9 +9,7 @@
     
     <!-- load templates according to user types -->
     {% if user.is_student %}
-    <div class="student-home">
-        <h2>Hi {{user.username}}</h2>
-    </div>
+        {% include "student/dashboard.html"  %}
     {% elif user.is_professor%}
         {% include "student/dashboard.html"  %}
     {% endif %}

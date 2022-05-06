@@ -5,6 +5,10 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 import datetime
 
+
+DEFAULT_COURSE_ORG_FK = 1
+
+
 class User(AbstractUser):
     is_student = models.BooleanField(default=False)
     is_professor = models.BooleanField(default=False)
@@ -17,7 +21,7 @@ class Organization(models.Model):
     name = models.CharField(max_length=80)
     address = models.CharField(max_length=150)
     main_owner = models.CharField(max_length=150)
-
+    # courses = models.ForeignKey(Course, on_delete=models.CASCADE)
     def __str__(self) -> str:
         return self.name 
 
@@ -39,13 +43,14 @@ class Course(models.Model):
     subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
     schedule = models.CharField(max_length=30)
     professor = models.ForeignKey(Professor, on_delete=models.CASCADE)
-    
+    organization = models.ForeignKey(Organization, default=DEFAULT_COURSE_ORG_FK, on_delete=models.CASCADE)
     def __str__(self) -> str:
         return "%s"  % (self.course_name)
 
 class Student(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
     join_date = models.DateField( default=datetime.date.today)
+    organizations = models.ManyToManyField(Organization)
     courses = models.ManyToManyField(Course)
     participation_score = models.IntegerField(default=0)
 
