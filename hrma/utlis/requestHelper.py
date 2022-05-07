@@ -37,6 +37,7 @@ def processStudentPOSTRequest(request):
         subject_org_id =  request.POST['subject_org_id']
         
         subject =  Subject.objects.filter(name__startswith=question_subject_name, organization=subject_org_id).first()
+        print(f'creating question..')
         Question.objects.create(
             author_by = student,
             question_title =question_title,
@@ -48,21 +49,35 @@ def processStudentPOSTRequest(request):
     elif 'post_answer_form' in request.POST:
         answer_text = request.POST['answer_text']
         answer_question_id = request.POST['answer_question_id']
-        subject_org_id =  request.POST['subject_org_id']
         answer_approval_professor_id = request.POST['answer_approval_professor_id']
-        Answer.objects.create(
+        print(f'posting answer from {student}')
+        answer = Answer.objects.create(
             answer_text=answer_text,
             author_by=student,
             approval_professor = Professor.objects.filter(pk=answer_approval_professor_id),
             question = Question.objects.filter(pk=answer_question_id)
             )
+        print(f'success: { answer}')
     elif 'add_question_commnent_form':
+        print(f'posting question_comment from {student}')
         comment_text = request.POST['comment_text']
         question_id =  request.POST['question_id']
-        QuestionComment.objects.create(
+        question_comment = QuestionComment.objects.create(
             comment_text=comment_text,
             question = Question.objects.filter(pk=question_id),
             author = student
         )
+        print(f'success: {question_comment}')
     elif 'add_answer_comment_form':
+        print(f'posting question_comment from {student}')
+
+        comment_text = request.POST['comment_text']
+        answer_id = request.POST['answer_id']
+        answer_comment = AnswerComment.objects.create(
+            comment_text = comment_text,
+            answer = Answer.objects.filter(pk=answer_id),
+            author = student
+        )
+
+        print(f'success: {answer_comment}')
         pass
