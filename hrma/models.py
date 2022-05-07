@@ -26,7 +26,7 @@ class Organization(models.Model):
         return self.name 
 
 class Subject(models.Model):
-    name = models.CharField(max_length=30)
+    name = models.CharField(max_length=30, unique=True)
     description = models.CharField(max_length=150)
     organization = models.ForeignKey(Organization, on_delete=models.CASCADE)
     def __str__(self) -> str:

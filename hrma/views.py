@@ -5,8 +5,8 @@ from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth import authenticate, login as authlogin
 from django.contrib import messages
 from django.views import View
-from hrma.utlis.views import processProfessorPOSTRequests
-from hrma.models import Professor,Organization, Subject, Course, Student
+from hrma.utlis.requestHelper import processProfessorPOSTRequests,processStudentPOSTRequest
+from hrma.models import Question, Professor,Organization, Subject, Course, Student
 from . import forms
 # Create your views here
 def home(request):
@@ -53,19 +53,33 @@ class StudentDasboard(View):
     def get(self, request, *args, **kwargs):
         self._build_fields(request)
         return render(request, self.template_name, self.context)
+    
+    def post(self, request, *args, **kwargs):
+        processStudentPOSTRequest(request)
+        self._build_fields(request)
+        return render(request, self.template_name, self.context)
         
     def _build_fields(self, request):
-        student =Student.objects.filter(pk=request.user).first()
-        student_courses = student.courses.all()
+        student = Student.objects.filter(pk=request.user).first()
         student_orgs = []
         student_professors = []
+        student_questions = student.question_set
+        student_question_comments = student.questioncomment_set
+        student_answers = student.answer_set
+        student_answer_comments =student.answercomment_set
+        student_courses = student.courses.all()
         for course in student_courses:
             student_orgs.append(course.organization)
             student_professors.append(course.professor)
+        
         self.context = {
             'student_orgs':student_orgs,
             'student_courses':student_courses,
-            'student_professors':student_professors
+            'student_professors':student_professors,
+            'student_questions' : student_questions,
+            'student_question_comments' : student_question_comments,
+            'student_answers' : student_answers,
+            'student_answer_comments' : student_answer_comments
         }
 
         
