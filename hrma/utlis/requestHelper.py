@@ -1,5 +1,6 @@
 
-from hrma.models import Student, Organization, Professor,Subject, Course, Question
+from hrma.models import *
+
 
 def processProfessorPOSTRequests(request):
     professor = Professor.objects.filter(pk=request.user).first()
@@ -45,14 +46,17 @@ def processStudentPOSTRequest(request):
             question_subject= subject
         )
         print(f'added qeustion {question_title} to student {student.user.username}')
-        # professor.subjects.add(subjectId)
-    elif 'add_answer_form' in request.POST:
-        courseName = request.POST['course']
-        subject = Subject.objects.filter(id=request.POST['subject']).first()
-        Course.objects.create(
-            course_name=courseName,
-            subject=subject,
-            # professor=professor
+
+    elif 'post_answer_form' in request.POST:
+        answer_text = request.POST['answer_text']
+        answer_question_id = request.POST['answer_question_id']
+        subject_org_id =  request.POST['subject_org_id']
+        answer_approval_professor_id = request.POST['answer_approval_professor_id']
+        Answer.objects.create(
+            answer_text=answer_text,
+            author_by=student,
+            approval_professor = Professor.objects.filter(pk=answer_approval_professor_id),
+            question = Question.objects.filter(pk=answer_question_id)
             )
     elif 'add_question_commnent_form':
         pass
