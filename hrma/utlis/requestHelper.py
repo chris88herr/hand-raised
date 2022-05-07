@@ -25,8 +25,6 @@ def processProfessorPOSTRequests(request):
 def processStudentPOSTRequest(request):
     student = Student.objects.filter(pk=request.user).first()
     if 'add_course_form' in request.POST:
-        #GET COURSE ID TO LOOK IN DATABASE
-        
         course = Course.objects.filter(pk=request.POST['courseId']).first()
         print(f'Adding COURSE  {course}  to Student to {student}')
         student.course_set.add(course)
@@ -59,6 +57,12 @@ def processStudentPOSTRequest(request):
             question = Question.objects.filter(pk=answer_question_id)
             )
     elif 'add_question_commnent_form':
-        pass
+        comment_text = request.POST['comment_text']
+        question_id =  request.POST['question_id']
+        QuestionComment.objects.create(
+            comment_text=comment_text,
+            question = Question.objects.filter(pk=question_id),
+            author = student
+        )
     elif 'add_answer_comment_form':
         pass
