@@ -97,7 +97,7 @@ class AddOrgToStudentForm(forms.Form):
         print('add org form finish')
     def _build_fields(self):
         orgs = Organization.objects.all()
-        self.fields['organizations'] = forms.ModelChoiceField(queryset=orgs)
+        self.fields['organization'] = forms.ModelChoiceField(queryset=orgs)
 
 class AddCourseToStudentForm(forms.Form):
     def __init__(self, *args, **kwargs):
