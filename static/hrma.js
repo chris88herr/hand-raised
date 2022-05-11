@@ -67,8 +67,6 @@ function filterCoursesList(coursesList){
 
             }
         })
-             
-         
     }
 }
 function filterCoursesEventListeners(){
@@ -82,11 +80,9 @@ function filterCoursesEventListeners(){
             filterCoursesList(coursesList)
             
         })
-    }
-
-    )
+    })
 }
-window.onload = (e)=>{
+window.addEventListener("load", (e)=>{
     $('.close-span').on("click", function(){
         $(this).parent().parent().css('display', 'none')
     })
@@ -109,4 +105,4 @@ window.onload = (e)=>{
     filterCoursesEventListeners()
 
 }
-
+)

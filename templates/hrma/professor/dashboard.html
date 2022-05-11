@@ -55,7 +55,6 @@
                                 <option value="{{subject.id}}" id="{{subject.organization}}">{{subject.name}}</option>
                             {% endfor %}
                         </select>
-                        <!-- {{ add_subject_form }} -->
                         <button type="submit" name="add_subject_form"> Join! </button>
                     </form>
             </div>
@@ -65,7 +64,7 @@
         </div>
         </section>
     </div>
-    <!-- FILTERS -->
+                                             <!-- FILTERS -->
     <div class="filters-section">
         <div class="single-filter-section professor-orgs">
             {% for professor_org in professor_orgs %}
@@ -83,14 +82,15 @@
         </div>
     </div>
     
-
+                                        <!-- COURSES -->
     <section class="courses-section section">
         <div class="section-header">
             <h2>Your Courses</h2> 
             <button class="course-add-btn add-form-btn">Add</button>
         </div>
-    <div class="course-add-section add-form" style="background-color: beige;">
-        <div class="add-form-content">
+                                    <!-- COURSES-ADD-FORM -->
+            <div class="course-add-section add-form" style="background-color: beige;">
+                <div class="add-form-content">
                 <span class="close-span">X</span>
                     <h3>Add Course</h3>
                     <form action="/hrma/professorDashboard" method="POST">
@@ -118,8 +118,9 @@
                             <button type="submit" name="add_course_form"> Add Course! </button>
                         </div>
                     </form>
-            </div>
-    </div>
+                </div>
+            </div>  
+                                    <!-- COURSES-LIST   -->
         <div class="user-courses-list">
             {% for course in professor_courses %}
             <div class="single-course" id="{{course.subject.organization}}_{{course.subject}}">
