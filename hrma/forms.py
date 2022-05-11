@@ -120,9 +120,11 @@ class PostQuestionForm(forms.Form):
         self._build_fields()
 
     def _build_fields(self):
-        self.fields['questionTitle'] = forms.CharField(widget=forms.TextInput(attrs={'label', 'Question Title'}))
-        self.fields['questionBody'] = forms.CharField(widget=forms.Textarea(attrs={'label', 'Question details'}))
-
+        self.fields['question_title'] = forms.CharField(widget=forms.TextInput(attrs={'class':'post_question_form_title',
+                                                                                    'placeholder':'Title'}))
+        self.fields['question_body'] = forms.CharField(widget=forms.Textarea(attrs={'class':'post_question_form_body',
+                                                                                        'placeholder':'Body'}))
+        # self.fields['questionTitle'].label = 'Title'
 class PostAnswerForm(forms.Form):
     def __init__(self, *args, **kwargs) -> None:
         super(PostAnswerForm, self).__init__()

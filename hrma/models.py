@@ -1,4 +1,5 @@
 from ast import Sub
+from operator import mod
 from tkinter import CASCADE
 from turtle import ondrag
 from django.db import models
@@ -26,7 +27,7 @@ class Organization(models.Model):
         return self.name 
 
 class Subject(models.Model):
-    name = models.CharField(max_length=30, unique=True)
+    name = models.CharField(max_length=30)
     description = models.CharField(max_length=150)
     organization = models.ForeignKey(Organization, on_delete=models.CASCADE)
     def __str__(self) -> str:
@@ -62,6 +63,7 @@ class Question(models.Model):
     times_viewed = models.IntegerField(default=0)
     score = models.IntegerField(default=0)
     subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
+    course = models.ForeignKey(Course, on_delete=models.CASCADE, null=True)
 
 class QuestionComment(models.Model):
     comment_text =  models.CharField(max_length=500)
