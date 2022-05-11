@@ -94,11 +94,17 @@ class StudentDasboard(View):
         }
 
 class CoursesView(View):
-    template_name = ''
+    template_name = 'student/student_course.html'
+    context = {}
     def get(self, request, *args, **kwargs):
-        
-        return HttpResponse(f'COURSE {kwargs.pop("course_id")}')
-             
+        self._build_fields(request, kwargs)
+        return render(request, self.template_name , self.context)
+
+    def _build_fields(self, request, kwargs):
+        course_id = kwargs.pop('course_id')
+        self.context = {
+            'course_id':course_id
+        }     
     
 def login(request):
     if request.method == 'POST':

@@ -1,0 +1,35 @@
+.left-menu {
+  position: fixed;
+  width: 15%;
+  height: 70%;
+  background-color: whitesmoke;
+  border: 1px;
+  border-color: #949494;
+  border-style: dashed;
+  border-style: solid solid solid none;
+  top: 50%;
+  -webkit-transform: translateY(-50%);
+          transform: translateY(-50%);
+}
+
+.left-menu .menu-items {
+  height: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: space-evenly;
+      -ms-flex-pack: space-evenly;
+          justify-content: space-evenly;
+  margin-left: 10px;
+}
+
+.main-workspace {
+  position: relative;
+  width: 75%;
+  left: 18%;
+}
+/*# sourceMappingURL=student.css.map */

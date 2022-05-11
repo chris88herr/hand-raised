@@ -12,6 +12,7 @@
     <script src = "{% static 'hrma.js' %}">  </script>
 
     {% block scripts %} {% endblock %}
+    {% block css %} {% endblock %}
     <title>
         {% block title %}
         {% endblock %}
@@ -44,6 +45,6 @@
         
     </div>
     {% block content %}
-        {% endblock %}
+    {% endblock %}
     </body>
 </html>

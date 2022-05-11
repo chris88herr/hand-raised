@@ -1,6 +1,10 @@
 
+{% extends 'student/home.html' %}
+
 {% load static %}
 {% block scripts %} <script src = "{% static 'js/student.js' %}">  </script> {% endblock %}
+{% block content %}
+    
 <div class="professor-home">
     <h2>Hi Student {{user.username}}</h2>
     <div class="sections"s>
@@ -55,7 +59,7 @@
                             <option value selected >--------</option>
                             {% for org in add_course_form.student_orgs.field.queryset %} 
                                 <option value="{{org.name}}">{{org.name}}</option> 
-                            {% endfor %}w
+                            {% endfor %}
                         </select>
                         <label for="id_courses">courses</label>
                         <select name="course_id" required id="id_courses">
@@ -86,3 +90,6 @@
         </div>
     </section>
 </div>
+
+
+{% endblock %}

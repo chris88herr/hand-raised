@@ -1,0 +1,51 @@
+{% extends 'student/home.html' %}
+{% load static %}
+<!-- CSS -->
+{% block css %}
+<link rel="stylesheet" type='text/css' href="{% static 'css/student.css' %}">
+ {% endblock %}
+{% block title %} Course {% endblock %}
+{% block content %}
+
+       
+       <div class="course-main">
+           <div class="left-menu">
+                <div class="menu-items">
+                    <div class="single-menu-item">
+                        <h3>All Questions</h3>
+                    </div>
+                    <div class="single-menu-item">
+                        <h3>Your Questions</h3>
+                    </div>
+                    <div class="single-menu-item">
+                        <h3>Your Answers</h3>
+                    </div>
+                </div>
+           </div>
+           <div class="main-workspace">
+               <div class="create-question-main">
+                   <button class="create-question-btn">
+                       <h2>Post A question</h2>
+
+                   </button>
+                   <form action="studentDashboard/courses/{{course_id}}" method="POST">
+                    {% csrf_token %}
+                    {{ post_question_form}}
+                   </form>
+               </div>
+               <!-- <div class="self-questions">
+                   {% for question in student_questions %}
+                        <div class="self-single-question">
+                            <h3>
+                                {{question.question_title}}
+                            </h3>
+                        </div>
+                   {% endfor %}
+               </div> -->
+               
+               
+           </div>
+       </div>
+
+
+{% endblock %}

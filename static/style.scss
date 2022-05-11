@@ -7,8 +7,8 @@
     --third-background: #77A6F7;
 }
 body{
-    margin: auto;
-    width: 90%;
+    // margin: auto;
+    // width: 90%;
     form{
         margin:inherit;
         width: inherit;
@@ -27,20 +27,30 @@ body{
 
 
 .header-content{
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+    // display: flex;
+    // align-items: center;
+    // justify-content: space-between;
 
     // padding:40px;
     // background-color: #c2dbd9;
-    // position: fixed;
-    // height:50%;
+    position: sticky;
+    height:20%;
+    z-index: 10;
+    background-color: white;
+    width: 100%;
+    top: 0;
+    button{
+        position: absolute;
+        right: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+    }
     // width: 80%;
     // top:50%;
     // left:50%;
     // transform: translate(-50%,-50%);
     h1{
-       
+       display: inline-block;
         font-family: 'Tapestry', cursive;
     //     font-weight: 200;
     //    text-align: center;
