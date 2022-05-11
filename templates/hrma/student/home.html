@@ -6,12 +6,8 @@
 {% endblock %}
 {% block title %} Dashboard {% endblock %}
 {% block content %}
-    
-    <!-- load templates according to user types -->
-    {% if user.is_student %}
+
         {% include "student/dashboard.html"  %}
-    {% elif user.is_professor%}
-        {% include "student/dashboard.html"  %}
-    {% endif %}
+
 
 {% endblock %}

@@ -1,3 +1,4 @@
+from django.http import HttpRequest, HttpResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy, reverse
 from django.views import generic
@@ -29,6 +30,7 @@ class ProfessorDashboard(View):
         processProfessorPOSTRequests(request)
 
     def _build_fields(self, request):
+        print(request)
         add_org_form = forms.AddOrganizationToProfessor
         add_subject_form = forms.AddSubjectToProfessor(user=request.user)
         add_course_form = forms.AddCourseToProfessor(user=request.user)
@@ -51,16 +53,21 @@ class StudentDasboard(View):
     template_name = 'student/home.html'
     context = {}
     def get(self, request, *args, **kwargs):
+        print(f'STUDENT GET REQUEST')
         self._build_fields(request)
         return render(request, self.template_name, self.context)
     
     def post(self, request, *args, **kwargs):
+        print(f'REQUEST OBJ --> {request.POST}')
         processStudentPOSTRequest(request)
         self._build_fields(request)
         return render(request, self.template_name, self.context)
         
     def _build_fields(self, request):
         student = Student.objects.filter(pk=request.user).first()
+        print(f'collecting forms..')
+        add_org_form = forms.AddOrgToStudentForm()
+        add_course_form = forms.AddCourseToStudentForm(user = request.user)
         student_orgs = []
         student_professors = []
         student_questions = student.question_set
@@ -69,10 +76,14 @@ class StudentDasboard(View):
         student_answer_comments =student.answercomment_set
         student_courses = student.courses.all()
         for course in student_courses:
-            student_orgs.append(course.organization)
-            student_professors.append(course.professor)
+            if course.organization not in student_orgs:
+                student_orgs.append(course.organization)
+            if course.professor not in student_professors:
+                student_professors.append(course.professor)
         
         self.context = {
+            'add_course_form':add_course_form,
+            'add_org_form':add_org_form,
             'student_orgs':student_orgs,
             'student_courses':student_courses,
             'student_professors':student_professors,
@@ -82,7 +93,12 @@ class StudentDasboard(View):
             'student_answer_comments' : student_answer_comments
         }
 
+class CoursesView(View):
+    template_name = ''
+    def get(self, request, *args, **kwargs):
         
+        return HttpResponse(f'COURSE {kwargs.pop("course_id")}')
+             
     
 def login(request):
     if request.method == 'POST':

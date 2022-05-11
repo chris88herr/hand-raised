@@ -1,86 +1,88 @@
 
-
+{% load static %}
+{% block scripts %} <script src = "{% static 'js/student.js' %}">  </script> {% endblock %}
 <div class="professor-home">
     <h2>Hi Student {{user.username}}</h2>
-    <!-- <section class="subjects section">
-        <div class="section-header ">
-            <h2>Your Subjects</h2> <button class="subject-add-btn">Add</button>
+    <div class="sections"s>
+        <!-- Org Section -->
+        <section class="orgs section">
+            <div class="section-header">
+                <div class="orgs-section-header">
+                    <h4>Your Orgs</h4> 
+                </div>
+                <button class="subject-add-btn add-form-btn">Add</button>
+            </div>
+        <div class="orgs-add-section add-form">
+            <div class="add-form-content">
+                <span class="close-span">X</span>
+                    <h3>Join an Org</h3>
+                    <form action="/hrma/studentDashboard" method="POST">
+                        {% csrf_token %}
+                        {{ add_org_form }}
+                        <button type="submit" name="add_org_form"> Join! </button>
+                    </form>
+            </div>
+            
         </div>
-    <div class="subject-add-section">
-            <select>
-                <option selected>All</option>
-                <option>Calculus I</option>
-                <option>Calculus II</option>
-                <option>Calculus III</option>
-                <option> Linear Algebra</option>
-            </select>
+        </section>
+
     </div>
-    <div class="user-subjects-list">
+                                             <!-- FILTERS -->
+    <div class="filters-section">
+        <div class="single-filter-section student-orgs">
+            {% for student_org in student_orgs %}
+            <div class="single-student-org single-filter" id="{{student_org.name}}">
+                <p>{{student_org.name}}</p>
+            </div>
+            {% endfor %}
+        </div>
     </div>
-    </section>
+
+                                         <!-- COURSES -->
     <section class="courses-section section">
         <div class="section-header">
             <h2>Your Courses</h2> 
-            <button class="course-add-btn">Add</button>
+            <button class="course-add-btn add-form-btn">Add a course</button>
         </div>
-    <div class="course-add-section" style="background-color: beige;">
-        
-    </div>
+        <div class="course-add-section add-form">
+            <div class="add-form-content">
+                <span class="close-span">X</span>
+                    <h3>Add a course</h3>
+                    <form action="/hrma/studentDashboard" method="POST">
+                        {% csrf_token %}
+                        <label for="id_organizations">Organizations</label>
+                        <select name="organization" required id="id_organizations_courses">
+                            <option value selected >--------</option>
+                            {% for org in add_course_form.student_orgs.field.queryset %} 
+                                <option value="{{org.name}}">{{org.name}}</option> 
+                            {% endfor %}w
+                        </select>
+                        <label for="id_courses">courses</label>
+                        <select name="course_id" required id="id_courses">
+                            <option value="NO-ID" class="initialOpt" selected>------</option>
+
+                            {% for course in add_course_form.org_courses.field.queryset %}
+                                <option value="{{course.id}}" id="{{course.organization}}">{{course.course_name}}</option>
+                            {% endfor %}
+                        </select>
+                        <button type="submit" name="add_course_form"> Join! </button>
+                    </form>
+            </div>
+            
+        </div>
+                                    <!-- COURSES-LIST   -->
         <div class="user-courses-list">
-            <div class="single-course">
-                <h4 class="course-subject">Linear Algebra</h4>
-                <h2 class="course-title">LALG-4040</h2>
-            </div>
-            <div class="single-course">
-                <h4 class="course-subject">Linear Algebra</h4>
-                <h2 class="course-title">LALG-4041</h2>
-            </div>
-            <div class="single-course">
-                <h4 class="course-subject">Linear Algebra</h4>
-                <h2 class="course-title">LALG-4042</h2>
-            </div>
-            <div class="single-course">
-                <h4 class="course-subject">Calculus I</h4>
-                <h2 class="course-title">CALI-4052</h2>
-            </div>
-            <div class="single-course">
-                <h4 class="course-subject">Calculus III</h4>
-                <h2 class="course-title">CALIII-4052</h2>
-            </div>
-            <div class="single-course">
-                <h4 class="course-subject">Calculus III</h4>
-                <h2 class="course-title">CALIII-4052</h2>
-            </div>
-            <div class="single-course">
-                <h4 class="course-subject">Calculus III</h4>
-                <h2 class="course-title">CALIII-4052</h2>
-            </div>
-            <div class="single-course">
-                <h4 class="course-subject">Calculus III</h4>
-                <h2 class="course-title">CALIII-4052</h2>
-            </div>
-            <div class="single-course">
-                <h4 class="course-subject">Calculus III</h4>
-                <h2 class="course-title">CALIII-4052</h2>
-            </div>
-            <div class="single-course">
-                <h4 class="course-subject">Calculus III</h4>
-                <h2 class="course-title">CALIII-4052</h2>
-            </div>
-            <div class="single-course">
-                <h4 class="course-subject">Calculus III</h4>
-                <h2 class="course-title">CALIII-4052</h2>
-            </div>
-            <div class="single-course">
-                <h4 class="course-subject">Calculus III</h4>
-                <h2 class="course-title">CALIII-4052</h2>
-            </div>
-            <div class="single-course">
-                <h4 class="course-subject">Calculus III</h4>
-                <h2 class="course-title">CALIII-4052</h2> 
-        </div>-->
-    </section> 
-    
-    
-    </div>
+            {% for course in student_courses %}
+            <div class="single-course" id="{{course.subject.organization}}_{{course.subject}}">
+                    <a href="studentDashboard/courses/{{course.id}}">
+                    <h5>{{course.subject.organization}}</h5>
+                    <h4 class="course-subject">{{course.subject}}</h4>
+                    <h4 class="course-professor">{{course.professor.user.username}}</h4>
+                    <h2 class="course-title">{{course.course_name}}</h2>
+                    </a>
+                </div>
+            {% endfor %}
+            
+        </div>
+    </section>
 </div>
